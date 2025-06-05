@@ -7,10 +7,9 @@
     "dev": "NODE_ENV=development nodemon server.js",
     "start": "NODE_ENV=production node server.js",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev --name init",
     "prisma:deploy": "prisma migrate deploy",
     "seed": "node prisma/seed.js",
-    "postdeploy": "node prisma/seed.js"
+    "postdeploy": "npm run prisma:deploy && npm run seed"
   },
   "dependencies": {
     "@prisma/client": "^5.2.0",
