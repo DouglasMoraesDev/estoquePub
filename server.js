@@ -15,11 +15,9 @@ const PORT = process.env.PORT || 3000;
 // MIDDLEWARES
 // ---------------------------
 
-// Body parser para JSON e urlencoded
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Sessão
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'muitosecreto',
@@ -31,7 +29,6 @@ app.use(
   })
 );
 
-// Servir arquivos estáticos de 'public'
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ---------------------------
@@ -63,19 +60,16 @@ function checkEmployee(req, res, next) {
 // ROTAS de Autenticação
 // ---------------------------
 
-// GET "/" → login (serve index.html)
 app.get('/', (req, res) => {
   return res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// POST "/login" → processa login
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
     return res.redirect('/?error=Dados incompletos');
   }
 
-  // 1) busca usuário no banco
   const user = await prisma.usuario.findUnique({
     where: { username },
   });
@@ -84,18 +78,15 @@ app.post('/login', async (req, res) => {
     return res.redirect('/?error=Usuário não encontrado');
   }
 
-  // 2) compara senha usando bcryptjs
   const valid = await bcrypt.compare(password, user.password);
   if (!valid) {
     return res.redirect('/?error=Senha incorreta');
   }
 
-  // 3) cria sessão
   req.session.userId = user.id;
   req.session.username = user.username;
-  req.session.role = user.role; // "ADMIN" ou "EMPLOYEE"
+  req.session.role = user.role;
 
-  // 4) redireciona para a área correta
   if (user.role === 'ADMIN') {
     return res.redirect('/admin');
   } else {
@@ -103,7 +94,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// GET "/logout" → destrói sessão
 app.get('/logout', (req, res) => {
   req.session.destroy(() => {
     res.redirect('/');
@@ -114,17 +104,14 @@ app.get('/logout', (req, res) => {
 // ROTAS de PÁGINAS
 // ---------------------------
 
-// /admin → admin.html (apenas ADMIN autenticado)
 app.get('/admin', checkAuthenticated, checkAdmin, (req, res) => {
   return res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
-// /employee → employee.html (apenas EMPLOYEE autenticado)
 app.get('/employee', checkAuthenticated, checkEmployee, (req, res) => {
   return res.sendFile(path.join(__dirname, 'public', 'employee.html'));
 });
 
-// /qrcode → qrcode.html (aberto para todos, gera QR que aponta para /employee)
 app.get('/qrcode', (req, res) => {
   return res.sendFile(path.join(__dirname, 'public', 'qrcode.html'));
 });
@@ -133,19 +120,13 @@ app.get('/qrcode', (req, res) => {
 // ROTAS de API (JSON) – protegidas
 // ---------------------------
 
-/** 
- * API de Produtos:
- *   GET    /api/products         → lista todos (ADMIN e EMPLOYEE)
- *   POST   /api/products         → cria novo (somente ADMIN)
- *   PUT    /api/products/:id     → atualiza (somente ADMIN)
- *   DELETE /api/products/:id     → apaga (somente ADMIN)
- */
 app.get('/api/products', checkAuthenticated, async (req, res) => {
   try {
     const produtos = await prisma.produto.findMany();
     return res.json(produtos);
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    console.error('ERRO ao listar produtos:', err);
+    return res.status(500).json({ error: 'Erro interno ao listar produtos.' });
   }
 });
 
@@ -161,7 +142,8 @@ app.post('/api/products', checkAuthenticated, checkAdmin, async (req, res) => {
     });
     return res.json(novo);
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    console.error('ERRO ao criar produto:', err);
+    return res.status(500).json({ error: 'Erro interno ao criar produto.' });
   }
 });
 
@@ -179,7 +161,8 @@ app.put('/api/products/:id', checkAuthenticated, checkAdmin, async (req, res) =>
     });
     return res.json(atualizado);
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    console.error('ERRO ao atualizar produto:', err);
+    return res.status(500).json({ error: 'Erro interno ao atualizar produto.' });
   }
 });
 
@@ -189,15 +172,11 @@ app.delete('/api/products/:id', checkAuthenticated, checkAdmin, async (req, res)
     await prisma.produto.delete({ where: { id: Number(id) } });
     return res.json({ message: 'Deletado com sucesso.' });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    console.error('ERRO ao deletar produto:', err);
+    return res.status(500).json({ error: 'Erro interno ao deletar produto.' });
   }
 });
 
-/**
- * API de Retiradas:
- *   GET    /api/retiradas          → lista todas (somente ADMIN)
- *   POST   /api/retiradas          → registra (somente EMPLOYEE)
- */
 app.get(
   '/api/retiradas',
   checkAuthenticated,
@@ -211,7 +190,6 @@ app.get(
           usuario: true,
         },
       });
-      // Formata saída
       const formatado = dados.map((r) => ({
         id: r.id,
         produtoId: r.produtoId,
@@ -223,7 +201,8 @@ app.get(
       }));
       return res.json(formatado);
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      console.error('ERRO ao listar retiradas:', err);
+      return res.status(500).json({ error: 'Erro interno ao listar retiradas.' });
     }
   }
 );
@@ -271,16 +250,12 @@ app.post(
   }
 );
 
-// ---------------------------
 // 404 PARA ROTAS NÃO TRATADAS
-// ---------------------------
 app.use((req, res) => {
   res.status(404).send('Rota não encontrada');
 });
 
-// ---------------------------
 // INICIAR SERVIDOR
-// ---------------------------
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor rodando em http://0.0.0.0:${PORT}`);
 });

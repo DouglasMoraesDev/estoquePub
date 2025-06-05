@@ -12,19 +12,16 @@ async function carregarEstoque() {
   const res = await fetch(`${API_BASE}/products`);
   const produtos = await res.json();
 
-  // Preencher select de produtos
   selectProdutos.innerHTML = '<option value="" disabled selected>Selecione um produto</option>';
   tabelaEstoqueBody.innerHTML = '';
 
   produtos.forEach((prod) => {
     const dataVal = new Date(prod.validade).toLocaleDateString('pt-BR');
-    // Preenche select
     const opt = document.createElement('option');
     opt.value = prod.id;
     opt.textContent = `${prod.nome} (Disponível: ${prod.quantidade}, Validade: ${dataVal})`;
     selectProdutos.appendChild(opt);
 
-    // Preenche tabela de estoque
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${prod.id}</td>
@@ -48,7 +45,6 @@ formRetirar.addEventListener('submit', async (e) => {
     return;
   }
 
-  // 1) busca produto atual para checar estoque
   const resProduto = await fetch(`${API_BASE}/products/${produtoId}`);
   if (!resProduto.ok) {
     alert('Produto não encontrado.');
@@ -60,18 +56,16 @@ formRetirar.addEventListener('submit', async (e) => {
     return;
   }
 
-  // 2) atualiza estoque (PUT /api/products/:id)
   await fetch(`${API_BASE}/products/${produtoId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       nome: produto.nome,
       quantidade: produto.quantidade - quantidade,
-      validade: produto.validade.split('T')[0], // "YYYY-MM-DD"
+      validade: produto.validade.split('T')[0],
     }),
   });
 
-  // 3) registra retirada (POST /api/retiradas)
   await fetch(`${API_BASE}/retiradas`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

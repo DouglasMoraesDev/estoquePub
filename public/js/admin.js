@@ -112,26 +112,61 @@ formAddProduto.addEventListener('submit', async (e) => {
   const quantidade = parseInt(qtdeInput.value, 10);
   const validade = validadeInput.value; // "YYYY-MM-DD"
 
-  if (!nome || isNaN(quantidade) || !validade) {
-    alert('Preencha todos os campos corretamente.');
+  if (!nome) {
+    alert('Informe o nome do produto.');
+    return;
+  }
+  if (isNaN(quantidade) || quantidade < 0) {
+    alert('Informe uma quantidade válida (número ≥ 0).');
+    return;
+  }
+  if (!validade) {
+    alert('Informe a validade.');
+    return;
+  }
+  const dt = new Date(validade);
+  if (isNaN(dt.getTime())) {
+    alert('Validade inválida.');
     return;
   }
 
   if (!modoEdicao) {
     // → Criar produto
-    await fetch(`${API_BASE}/products`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nome, quantidade, validade }),
-    });
+    try {
+      const res = await fetch(`${API_BASE}/products`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, quantidade, validade }),
+      });
+      if (!res.ok) {
+        const body = await res.json();
+        alert('Erro ao criar produto: ' + (body.error || res.statusText));
+        return;
+      }
+    } catch (fetchErr) {
+      console.error('Erro de rede ao criar produto:', fetchErr);
+      alert('Falha de rede ao criar produto.');
+      return;
+    }
   } else {
     // → Atualizar produto
     const id = produtoIdInput.value;
-    await fetch(`${API_BASE}/products/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nome, quantidade, validade }),
-    });
+    try {
+      const res = await fetch(`${API_BASE}/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, quantidade, validade }),
+      });
+      if (!res.ok) {
+        const body = await res.json();
+        alert('Erro ao atualizar produto: ' + (body.error || res.statusText));
+        return;
+      }
+    } catch (fetchErr) {
+      console.error('Erro de rede ao atualizar produto:', fetchErr);
+      alert('Falha de rede ao atualizar produto.');
+      return;
+    }
     modoEdicao = false;
     btnCancelar.style.display = 'none';
     produtoIdInput.value = '';
@@ -139,8 +174,8 @@ formAddProduto.addEventListener('submit', async (e) => {
 
   formAddProduto.reset();
   carregarProdutos();
-  carregarGrafico(); // atualiza gráfico após editar/criar
-  carregarRetiradas(); // garante relatório atualizado
+  carregarGrafico();
+  carregarRetiradas();
 });
 
 // ---------------------------
@@ -148,16 +183,13 @@ formAddProduto.addEventListener('submit', async (e) => {
 // ---------------------------
 async function iniciarEdicaoProduto(e) {
   const id = e.target.dataset.id;
-  // busca produto específico
   const res = await fetch(`${API_BASE}/products/${id}`);
   const prod = await res.json();
 
-  // preenche campos
   produtoIdInput.value = prod.id;
   nomeInput.value = prod.nome;
   qtdeInput.value = prod.quantidade;
 
-  // formata data para input type="date"
   const dt = new Date(prod.validade);
   const ano = dt.getFullYear();
   const mes = String(dt.getMonth() + 1).padStart(2, '0');
@@ -195,11 +227,9 @@ async function apagarProduto(e) {
 // Função: Carregar Gráfico de Produtos mais Retirados
 // ---------------------------
 async function carregarGrafico() {
-  // 1) Pega todos os registros de retiradas
   const resRet = await fetch(`${API_BASE}/retiradas`);
   const retiradas = await resRet.json();
 
-  // 2) Conta quantidade retirada por nome de produto
   const contagem = {};
   retiradas.forEach((r) => {
     if (!contagem[r.produtoNome]) {
@@ -208,13 +238,10 @@ async function carregarGrafico() {
     contagem[r.produtoNome] += r.quantidade;
   });
 
-  // 3) Prepara dados para Chart.js
   const labels = Object.keys(contagem);
   const dataValues = labels.map((lab) => contagem[lab]);
 
-  // 4) Desenha gráfico
   const ctx = document.getElementById('chart-mais-retirados').getContext('2d');
-  // Se já existir um gráfico, destrói antes de criar novo
   if (window.meuGrafico) {
     window.meuGrafico.destroy();
   }

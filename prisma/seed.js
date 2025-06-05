@@ -1,6 +1,6 @@
 // prisma/seed.js
 const { PrismaClient } = require('@prisma/client');
-const bcrypt = require('bcryptjs');  // <--- trocado para bcryptjs
+const bcrypt = require('bcryptjs');
 
 const prisma = new PrismaClient();
 
@@ -9,7 +9,7 @@ async function main() {
   const senhaAdmin = '@pub123';
   const senhaFunc = 'func123';
 
-  // Hash das senhas usando bcryptjs
+  // Hash das senhas
   const hashAdmin = await bcrypt.hash(senhaAdmin, 10);
   const hashFunc = await bcrypt.hash(senhaFunc, 10);
 

@@ -12,7 +12,6 @@
     </div>
 
     <h1>Login</h1>
-    <!-- Se vier erro por query string, mostra mensagem -->
     <div id="error-msg" class="error"></div>
 
     <form action="/login" method="POST" class="form-login">
@@ -31,7 +30,6 @@
   </div>
 
   <script>
-    // Se houver ?error= na URL, exibe mensagem
     const params = new URLSearchParams(window.location.search);
     if (params.get('error')) {
       document.getElementById('error-msg').textContent = params.get('error');
