@@ -110,6 +110,18 @@ app.get('/logout', (req, res) => {
   });
 });
 
+// Qual modo estamos rodando?
+const isProduction = process.env.NODE_ENV === 'production';
+console.log(`Modo: ${process.env.NODE_ENV}`);
+
+// Agora, por exemplo, você pode forçar logs mais verbosos em dev:
+if (!isProduction) {
+  app.use((req, res, next) => {
+    console.log(`[DEV] ${req.method} ${req.url}`);
+    next();
+  });
+}
+
 // ---------------------------
 // ROTAS de PÁGINAS
 // ---------------------------

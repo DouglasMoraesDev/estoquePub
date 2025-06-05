@@ -4,11 +4,13 @@
   "description": "Sistema de Estoque para Restaurante (Node.js + Express + Prisma + MySQL)",
   "main": "server.js",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "NODE_ENV=development nodemon server.js",
+    "start": "NODE_ENV=production node server.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev --name init",
     "prisma:deploy": "prisma migrate deploy",
-    "seed": "node prisma/seed.js"
+    "seed": "node prisma/seed.js",
+    "postdeploy": "node prisma/seed.js"
   },
   "dependencies": {
     "@prisma/client": "^5.2.0",
@@ -19,6 +21,7 @@
     "express-session": "^1.17.4"
   },
   "devDependencies": {
-    "prisma": "^5.2.0"
+    "prisma": "^5.2.0",
+    "nodemon": "^2.0.22"
   }
 }
