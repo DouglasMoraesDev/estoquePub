@@ -9,13 +9,19 @@
 <body>
   <div class="container">
     <div class="logo-container">
-      <img src="img/logo.svg" alt="Logo PlayPub" class="logo" />
+      <img src="/img/logo.svg" alt="Logo PlayPub" class="logo" />
     </div>
     <header>
       <h1>Área do Gerente</h1>
-      <a href="/logout" class="btn-logout">Logout</a>
+      <div class="header-buttons">
+        <!-- Botão Configurações -->
+        <a href="/config" class="btn-secondary">Configurações</a>
+        <!-- Botão Logout -->
+        <a href="/logout" class="btn-logout">Logout</a>
+      </div>
     </header>
 
+    <!-- Seção: Adicionar / Editar Produto -->
     <section id="seccao-cadastro-produto">
       <h2>Adicionar / Editar Produto</h2>
       <form id="form-add-produto" class="form-produto">
@@ -35,57 +41,48 @@
       </form>
     </section>
 
+    <!-- Seção: Lista de Produtos -->
     <section id="seccao-lista-produtos">
       <h2>Produtos Cadastrados</h2>
-      <table id="tabela-produtos">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Qtde</th>
-            <th>Validade</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
 
-    <section id="seccao-lista-retiradas">
-      <h2>Histórico de Retiradas</h2>
-      <table id="tabela-retiradas">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Produto</th>
-            <th>Qtde</th>
-            <th>Funcionário</th>
-            <th>Data</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
-
-    <section id="seccao-relatorio-completo">
-      <h2>Relatório Completo</h2>
-      <div class="subsecao">
-        <h3>Estoque Atual</h3>
-        <table id="tabela-relatorio-estoque">
+      <!-- Container de Tabela (desktop) -->
+      <div class="table-container tabela-produtos-container">
+        <table id="tabela-produtos">
           <thead>
             <tr>
               <th>ID</th>
               <th>Nome</th>
               <th>Qtde</th>
               <th>Validade</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody></tbody>
         </table>
       </div>
-      <div class="subsecao">
-        <h3>Retiradas Registradas</h3>
-        <table id="tabela-relatorio-retiradas">
+
+      <!-- Container de Cards (mobile) -->
+      <div id="cards-produtos" class="cards-container"></div>
+    </section>
+
+    <!-- Seção: Histórico de Retiradas (filtrável) -->
+    <section id="seccao-lista-retiradas">
+      <h2>Histórico de Retiradas (Hoje)</h2>
+
+      <!-- Filtro de data -->
+      <div class="form-produto">
+        <label for="data-inicio">Data Início:</label>
+        <input type="date" id="data-inicio" />
+
+        <label for="data-fim">Data Fim:</label>
+        <input type="date" id="data-fim" />
+
+        <button type="button" id="btn-filtrar-retiradas" class="btn-secondary">Filtrar</button>
+      </div>
+
+      <!-- Container de Tabela (desktop) -->
+      <div class="table-container tabela-retiradas-container">
+        <table id="tabela-retiradas">
           <thead>
             <tr>
               <th>ID</th>
@@ -98,8 +95,52 @@
           <tbody></tbody>
         </table>
       </div>
+
+      <!-- Container de Cards (mobile) -->
+      <div id="cards-retiradas" class="cards-container"></div>
     </section>
 
+    <!-- Seção: Relatório Completo -->
+    <section id="seccao-relatorio-completo">
+      <h2>Relatório Completo</h2>
+
+      <div class="subsecao">
+        <h3>Estoque Atual</h3>
+        <div class="table-container tabela-relatorio-estoque">
+          <table id="tabela-relatorio-estoque">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Qtde</th>
+                <th>Validade</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="subsecao">
+        <h3>Retiradas Registradas</h3>
+        <div class="table-container tabela-relatorio-retiradas">
+          <table id="tabela-relatorio-retiradas">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Produto</th>
+                <th>Qtde</th>
+                <th>Funcionário</th>
+                <th>Data</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção: Gráfico de Produtos Mais Retirados -->
     <section id="seccao-grafico-mais-retirados">
       <h2>Gráfico: Produtos mais Retirados</h2>
       <canvas id="chart-mais-retirados" class="chart-canvas"></canvas>

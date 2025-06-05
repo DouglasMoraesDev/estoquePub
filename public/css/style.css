@@ -4,8 +4,8 @@
 :root {
   --verde-escuro: #064c38;
   --verde-claro: #05612d;
-  --dourado: #d4af37;
-  --dourado-escuro: #b89b31;
+  --dourado: #05612d;
+  --dourado-escuro: #064c38;
   --laranja: #e67e22;
   --laranja-escuro: #d35400;
   --cinza-claro: #f5f5f5;
@@ -43,6 +43,12 @@ body {
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
 }
 
+/* Container específico para login (centralizar vertical) */
+.login-container {
+  max-width: 400px;
+  margin: 80px auto; /* empurra um pouco verticalmente */
+}
+
 /* Logo */
 .logo-container {
   background-color: var(--verde-escuro);
@@ -73,6 +79,29 @@ h2 {
 
 h3 {
   font-size: 1.25rem;
+}
+
+/* Header com botões alinhados */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.header-buttons a {
+  margin-left: 8px;
+  text-decoration: none;
+}
+.header-buttons .btn-secondary {
+  background-color: var(--dourado);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+.header-buttons .btn-secondary:hover {
+  background-color: var(--dourado-escuro);
 }
 
 /* Links de logout */
@@ -118,7 +147,7 @@ form select:focus {
   border-color: var(--verde-escuro);
 }
 
-.form-login, .form-retirada, .form-produto {
+.form-login, .form-retirada, .form-produto, .form-config {
   width: 100%;
 }
 
@@ -167,6 +196,13 @@ form select:focus {
   font-weight: 500;
 }
 
+/* Informações adicionais */
+.info {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
 /* Tabelas responsivas */
 .table-container {
   overflow-x: auto;
@@ -200,17 +236,32 @@ table tr:hover {
   background-color: #f0f0f0;
 }
 
-/* Relatórios */
-.subsecao {
-  margin-top: 32px;
-  padding-top: 12px;
-  border-top: 1px solid var(--cinza-escuro);
-}
+/* ============================= */
+/* Ajustes para tabela de estoque no Employee (mobile) */
+@media (max-width: 768px) {
+  .table-container {
+    overflow-x: auto;
+  }
 
-.chart-canvas {
-  width: 100% !important;
-  height: 450px !important;
-  margin-bottom: 30px;
+  #tabela-estoque {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  #tabela-estoque th,
+  #tabela-estoque td {
+    font-size: 0.85rem;
+    padding: 6px 8px;
+    white-space: nowrap;
+  }
+
+  .container {
+    padding: 12px 16px;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
 }
 
 /* Responsividade geral */
@@ -243,9 +294,87 @@ table tr:hover {
     padding: 10px 8px;
     font-size: 0.9rem;
   }
+}
 
-  .chart-canvas {
-    height: 300px !important;
+/* ============================= */
+/* CARD LAYOUT para telas pequenas (só usado na página de admin) */
+
+.cards-container {
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+  padding: 16px;
+}
+
+.card-header {
+  font-weight: 600;
+  color: var(--verde-escuro);
+  margin-bottom: 8px;
+}
+
+.card-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.card-row span.label {
+  font-weight: 500;
+  color: var(--texto-principal);
+}
+
+.card-row span.value {
+  color: var(--texto-principal);
+}
+
+.card-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.card-actions button {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.card-actions .btn-edit {
+  background-color: var(--verde-escuro);
+  color: #fff;
+}
+.card-actions .btn-edit:hover {
+  background-color: var(--verde-claro);
+}
+
+.card-actions .btn-delete {
+  background-color: var(--dourado);
+  color: #fff;
+}
+.card-actions .btn-delete:hover {
+  background-color: var(--dourado-escuro);
+}
+
+@media (max-width: 768px) {
+  .tabela-produtos-container,
+  .tabela-retiradas-container,
+  .tabela-relatorio-estoque,
+  .tabela-relatorio-retiradas {
+    display: none;
+  }
+  #cards-produtos,
+  #cards-retiradas {
+    display: flex;
   }
 }
 
