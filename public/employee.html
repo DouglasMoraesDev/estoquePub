@@ -7,12 +7,14 @@
 </head>
 <body>
   <div class="container">
+    <div class="logo-container">
+      <img src="/img/logo.png" alt="Logo PlayPub" class="logo" />
+    </div>
     <header>
       <h1>Área do Funcionário</h1>
       <a href="/logout" class="btn-logout">Logout</a>
     </header>
 
-    <!-- Seção de Retirada -->
     <section id="seccao-retirada">
       <h2>Registrar Retirada</h2>
       <form id="form-retirar" class="form-retirada">
@@ -24,11 +26,10 @@
         <label for="qtde-retirar">Quantidade:</label>
         <input type="number" id="qtde-retirar" min="1" required />
 
-        <button type="submit">Retirar</button>
+        <button type="submit" class="btn-primary">Retirar</button>
       </form>
     </section>
 
-    <!-- Seção de Estoque Atual -->
     <section id="seccao-estoque-atual">
       <h2>Estoque Atual</h2>
       <table id="tabela-estoque">
@@ -46,6 +47,6 @@
     </section>
   </div>
 
-  <script src="js/employee.js"></script>
+  <script src="/js/employee.js"></script>
 </body>
 </html>

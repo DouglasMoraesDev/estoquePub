@@ -4,26 +4,26 @@
   <meta charset="UTF-8" />
   <title>QR Code - Acesso Funcionário</title>
   <link rel="stylesheet" href="/css/style.css" />
-  <!-- Biblioteca QRCode.js via CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>Escaneie para Acessar a Área do Funcionário</h1>
+    <div class="logo-container">
+      <img src="/img/logo.png" alt="Logo PlayPub" class="logo" />
+    </div>
+
+    <h1>Escaneie para Acessar</h1>
     <div id="qrcode"></div>
-    <p>Ou copie o link abaixo no seu navegador:</p>
-    <input type="text" id="link-employee" readonly style="width:100%; padding:8px;" />
+    <p>Ou copie o link:</p>
+    <input type="text" id="link-employee" readonly class="link-input" />
   </div>
 
   <script>
     const container = document.getElementById('qrcode');
     const linkInput = document.getElementById('link-employee');
-
-    // Monta a URL absoluta de /employee
     const urlEmployee = window.location.origin + '/employee';
     linkInput.value = urlEmployee;
 
-    // Gera o QR code
     new QRCode(container, {
       text: urlEmployee,
       width: 220,

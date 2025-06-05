@@ -1,0 +1,166 @@
+/* style.css - Paleta inspirada no PlayPub: verde-escuro, dourado e branco */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.container {
+  width: 90%;
+  max-width: 900px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo no topo */
+.logo-container {
+  background-color: #064c38;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.logo {
+  max-width: 200px;
+  height: auto;
+}
+
+/* Cabeçalhos */
+h1 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #064c38; /* verde-escuro */
+}
+
+/* Header interno (admin/employee) */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Botão de Logout */
+.btn-logout {
+  text-decoration: none;
+  background-color: #064c38; /* verde-escuro */
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.btn-logout:hover {
+  background-color: #05612d; /* ligeiramente mais claro */
+}
+
+/* Formulários */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+form label {
+  flex: 1 0 100%;
+  margin-top: 8px;
+}
+
+form input,
+form select,
+form button {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form input:focus,
+form select:focus {
+  outline: none;
+  border-color: #064c38; /* verde-escuro no foco */
+}
+
+/* Botões primários (verde-escuro) */
+.btn-primary {
+  background-color: #064c38; /* verde-escuro */
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+}
+.btn-primary:hover {
+  background-color: #05612d; /* hover mais leve */
+}
+
+/* Botões secundários (dourado) */
+.btn-secondary {
+  background-color: #d4af37; /* dourado */
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+}
+.btn-secondary:hover {
+  background-color: #b89b31; /* dourado escuro */
+}
+
+/* Tabelas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+table th,
+table td {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+table th {
+  background-color: #f0f0f0;
+}
+
+/* Linhas ímpares em branco, pares muito levemente cinza */
+table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Erros */
+.error {
+  color: #d8000c;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+/* Botão de cancelar edição */
+#btn-cancelar-edicao {
+  background-color: #e67e22; /* laranja */
+}
+#btn-cancelar-edicao:hover {
+  background-color: #d35400;
+}
+
+/* Separadores de subseção nos relatórios */
+.subsecao {
+  margin-top: 30px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+}
+
+/* Canvas do gráfico ocupa largura total */
+.chart-canvas {
+  width: 100% !important;
+  height: 400px !important;
+}
