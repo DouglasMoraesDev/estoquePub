@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EMPLOYEE
+}
+
+model Usuario {
+  id        Int        @id @default(autoincrement())
+  username  String     @unique
+  password  String
+  role      Role
+  retiradas Retirada[]
+}
+
+model Produto {
+  id         Int        @id @default(autoincrement())
+  nome       String
+  quantidade Int        @default(0)
+  unidade    String
+  validade   DateTime
+  retiradas  Retirada[]
+}
+
+model Retirada {
+  id         Int      @id @default(autoincrement())
+  produto    Produto  @relation(fields: [produtoId], references: [id])
+  produtoId  Int
+  usuario    Usuario  @relation(fields: [usuarioId], references: [id])
+  usuarioId  Int
+  quantidade Int
+  data       DateTime @default(now())
+}

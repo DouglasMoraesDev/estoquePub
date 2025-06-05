@@ -1,0 +1,24 @@
+{
+  "name": "gerenciador-estoque",
+  "version": "1.0.0",
+  "description": "Sistema de Estoque para Restaurante (Node.js + Express + Prisma + MySQL)",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev --name init",
+    "prisma:deploy": "prisma migrate deploy",
+    "seed": "node prisma/seed.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.2.0",
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "express-session": "^1.17.4"
+  },
+  "devDependencies": {
+    "prisma": "^5.2.0"
+  }
+}

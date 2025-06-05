@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Administração do Estoque</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <!-- Chart.js via CDN para gerar gráfico -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Área do Gerente</h1>
+      <a href="/logout" class="btn-logout">Logout</a>
+    </header>
+
+    <!-- Seção de Adicionar / Editar Produto -->
+    <section id="seccao-cadastro-produto">
+      <h2>Adicionar / Editar Produto</h2>
+      <form id="form-add-produto" class="form-produto">
+        <input type="hidden" id="produto-id" value="" />
+
+        <label for="nome-produto">Nome:</label>
+        <input type="text" id="nome-produto" required />
+
+        <label for="qtde-produto">Quantidade:</label>
+        <input type="number" id="qtde-produto" min="0" required />
+
+        <label for="unidade-produto">Unidade:</label>
+        <input type="text" id="unidade-produto" required />
+
+        <label for="validade-produto">Validade:</label>
+        <input type="date" id="validade-produto" required />
+
+        <button type="submit" id="btn-salvar-produto">Salvar</button>
+        <button type="button" id="btn-cancelar-edicao" style="display:none;">Cancelar</button>
+      </form>
+    </section>
+
+    <!-- Seção de Lista de Produtos -->
+    <section id="seccao-lista-produtos">
+      <h2>Produtos Cadastrados</h2>
+      <table id="tabela-produtos">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Qtde</th>
+            <th>Unidade</th>
+            <th>Validade</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Seção de Histórico de Retiradas -->
+    <section id="seccao-lista-retiradas">
+      <h2>Histórico de Retiradas</h2>
+      <table id="tabela-retiradas">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Produto</th>
+            <th>Qtde</th>
+            <th>Funcionário</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Seção de Relatório Completo (estoque atual + retiradas) -->
+    <section id="seccao-relatorio-completo">
+      <h2>Relatório Completo</h2>
+      <!-- Sub-seção: Estoque Atual -->
+      <div class="subsecao">
+        <h3>Estoque Atual (Somente Em Estoque)</h3>
+        <table id="tabela-relatorio-estoque">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Qtde</th>
+              <th>Unidade</th>
+              <th>Validade</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Sub-seção: Retiradas -->
+      <div class="subsecao">
+        <h3>Retiradas Registradas</h3>
+        <table id="tabela-relatorio-retiradas">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Produto</th>
+              <th>Qtde</th>
+              <th>Funcionário</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Seção do Gráfico: Produtos que mais saem -->
+    <section id="seccao-grafico-mais-retirados">
+      <h2>Gráfico: Top Produtos Retirados</h2>
+      <canvas id="chart-mais-retirados" style="max-width:100%; height: 400px;"></canvas>
+    </section>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>
