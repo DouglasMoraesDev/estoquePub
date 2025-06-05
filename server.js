@@ -4,7 +4,7 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
-const bcrypt = require('bcryptjs'); // <--- trocado para bcryptjs
+const bcrypt = require('bcryptjs');
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
@@ -150,13 +150,12 @@ app.get('/api/products', checkAuthenticated, async (req, res) => {
 });
 
 app.post('/api/products', checkAuthenticated, checkAdmin, async (req, res) => {
-  const { nome, quantidade, unidade, validade } = req.body;
+  const { nome, quantidade, validade } = req.body;
   try {
     const novo = await prisma.produto.create({
       data: {
         nome,
         quantidade: Number(quantidade),
-        unidade,
         validade: new Date(validade),
       },
     });
@@ -168,14 +167,13 @@ app.post('/api/products', checkAuthenticated, checkAdmin, async (req, res) => {
 
 app.put('/api/products/:id', checkAuthenticated, checkAdmin, async (req, res) => {
   const { id } = req.params;
-  const { nome, quantidade, unidade, validade } = req.body;
+  const { nome, quantidade, validade } = req.body;
   try {
     const atualizado = await prisma.produto.update({
       where: { id: Number(id) },
       data: {
         nome,
         quantidade: Number(quantidade),
-        unidade,
         validade: new Date(validade),
       },
     });

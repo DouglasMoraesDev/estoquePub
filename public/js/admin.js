@@ -5,7 +5,6 @@ const formAddProduto = document.getElementById('form-add-produto');
 const produtoIdInput = document.getElementById('produto-id');
 const nomeInput = document.getElementById('nome-produto');
 const qtdeInput = document.getElementById('qtde-produto');
-const unidadeInput = document.getElementById('unidade-produto');
 const validadeInput = document.getElementById('validade-produto');
 const btnSalvar = document.getElementById('btn-salvar-produto');
 const btnCancelar = document.getElementById('btn-cancelar-edicao');
@@ -38,7 +37,6 @@ async function carregarProdutos() {
       <td>${prod.id}</td>
       <td>${prod.nome}</td>
       <td>${prod.quantidade}</td>
-      <td>${prod.unidade}</td>
       <td>${dataValidade}</td>
       <td>
         <button class="btn-editar" data-id="${prod.id}">Editar</button>
@@ -54,7 +52,6 @@ async function carregarProdutos() {
         <td>${prod.id}</td>
         <td>${prod.nome}</td>
         <td>${prod.quantidade}</td>
-        <td>${prod.unidade}</td>
         <td>${dataValidade}</td>
       `;
       tabelaRelEstoqueBody.appendChild(tr2);
@@ -113,10 +110,9 @@ formAddProduto.addEventListener('submit', async (e) => {
 
   const nome = nomeInput.value.trim();
   const quantidade = parseInt(qtdeInput.value, 10);
-  const unidade = unidadeInput.value.trim();
   const validade = validadeInput.value; // "YYYY-MM-DD"
 
-  if (!nome || isNaN(quantidade) || !unidade || !validade) {
+  if (!nome || isNaN(quantidade) || !validade) {
     alert('Preencha todos os campos corretamente.');
     return;
   }
@@ -126,7 +122,7 @@ formAddProduto.addEventListener('submit', async (e) => {
     await fetch(`${API_BASE}/products`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nome, quantidade, unidade, validade }),
+      body: JSON.stringify({ nome, quantidade, validade }),
     });
   } else {
     // → Atualizar produto
@@ -134,7 +130,7 @@ formAddProduto.addEventListener('submit', async (e) => {
     await fetch(`${API_BASE}/products/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nome, quantidade, unidade, validade }),
+      body: JSON.stringify({ nome, quantidade, validade }),
     });
     modoEdicao = false;
     btnCancelar.style.display = 'none';
@@ -160,7 +156,6 @@ async function iniciarEdicaoProduto(e) {
   produtoIdInput.value = prod.id;
   nomeInput.value = prod.nome;
   qtdeInput.value = prod.quantidade;
-  unidadeInput.value = prod.unidade;
 
   // formata data para input type="date"
   const dt = new Date(prod.validade);

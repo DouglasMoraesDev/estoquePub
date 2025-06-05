@@ -8,7 +8,6 @@ const API_BASE = '/api';
 
 // ---------------------------
 // Função: Carregar Estoque (lista produtos)
-
 async function carregarEstoque() {
   const res = await fetch(`${API_BASE}/products`);
   const produtos = await res.json();
@@ -22,7 +21,7 @@ async function carregarEstoque() {
     // Preenche select
     const opt = document.createElement('option');
     opt.value = prod.id;
-    opt.textContent = `${prod.nome} (Disponível: ${prod.quantidade} ${prod.unidade}, Validade: ${dataVal})`;
+    opt.textContent = `${prod.nome} (Disponível: ${prod.quantidade}, Validade: ${dataVal})`;
     selectProdutos.appendChild(opt);
 
     // Preenche tabela de estoque
@@ -31,7 +30,6 @@ async function carregarEstoque() {
       <td>${prod.id}</td>
       <td>${prod.nome}</td>
       <td>${prod.quantidade}</td>
-      <td>${prod.unidade}</td>
       <td>${dataVal}</td>
     `;
     tabelaEstoqueBody.appendChild(tr);
@@ -40,7 +38,6 @@ async function carregarEstoque() {
 
 // ---------------------------
 // Função: Registrar Retirada
-// ---------------------------
 formRetirar.addEventListener('submit', async (e) => {
   e.preventDefault();
   const produtoId = selectProdutos.value;
@@ -70,7 +67,6 @@ formRetirar.addEventListener('submit', async (e) => {
     body: JSON.stringify({
       nome: produto.nome,
       quantidade: produto.quantidade - quantidade,
-      unidade: produto.unidade,
       validade: produto.validade.split('T')[0], // "YYYY-MM-DD"
     }),
   });
@@ -89,7 +85,6 @@ formRetirar.addEventListener('submit', async (e) => {
 
 // ---------------------------
 // Inicialização ao carregar a página
-// ---------------------------
 window.addEventListener('load', () => {
   carregarEstoque();
 });

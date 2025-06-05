@@ -24,7 +24,6 @@ model Produto {
   id         Int        @id @default(autoincrement())
   nome       String
   quantidade Int        @default(0)
-  unidade    String
   validade   DateTime
   retiradas  Retirada[]
 }
