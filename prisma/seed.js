@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Senhas padrão (texto puro)
-  const senhaAdmin = '@pub123';
+  const senhaAdmin = '250719'
   const senhaFunc = 'func123';
 
   // Hash das senhas
@@ -15,10 +15,10 @@ async function main() {
 
   // Cria usuário ADMIN
   const usuarioAdmin = await prisma.usuario.upsert({
-    where: { username: 'admin' },
+    where: { username: 'Vitoria' },
     update: {},
     create: {
-      username: 'admin',
+      username: 'Vitoria',
       password: hashAdmin,
       role: 'ADMIN'
     }

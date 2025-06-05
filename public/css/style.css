@@ -1,5 +1,20 @@
-/* style.css - Paleta inspirada no PlayPub: verde-escuro, dourado e branco */
+/* style.css – Versão Responsiva e Moderna para PlayPub */
 
+/* Variáveis de cores */
+:root {
+  --verde-escuro: #064c38;
+  --verde-claro: #05612d;
+  --dourado: #d4af37;
+  --dourado-escuro: #b89b31;
+  --laranja: #e67e22;
+  --laranja-escuro: #d35400;
+  --cinza-claro: #f5f5f5;
+  --cinza-medio: #eee;
+  --cinza-escuro: #ddd;
+  --texto-principal: #333;
+}
+
+/* Reset e base */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -7,160 +22,263 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body {
-  background-color: #f5f5f5;
-  color: #333;
+html {
+  font-size: 16px;
+  background-color: var(--cinza-claro);
+  color: var(--texto-principal);
 }
 
+body {
+  line-height: 1.5;
+}
+
+/* Container centralizado */
 .container {
   width: 90%;
-  max-width: 900px;
-  margin: 40px auto;
-  background-color: #ffffff;
+  max-width: 1000px;
+  margin: 20px auto;
+  background-color: #fff;
   padding: 20px 30px;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
 }
 
-/* Logo no topo */
+/* Logo */
 .logo-container {
-  background-color: #064c38;
+  background-color: var(--verde-escuro);
   text-align: center;
-  margin-bottom: 20px;
+  padding: 20px 0;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 .logo {
-  max-width: 200px;
+  max-width: 180px;
   height: auto;
 }
 
 /* Cabeçalhos */
-h1 {
-  margin-bottom: 20px;
+h1, h2, h3 {
+  color: var(--verde-escuro);
+  margin-bottom: 16px;
   text-align: center;
-  color: #064c38; /* verde-escuro */
 }
 
-/* Header interno (admin/employee) */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+h1 {
+  font-size: 1.75rem;
 }
 
-/* Botão de Logout */
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+/* Links de logout */
 .btn-logout {
   text-decoration: none;
-  background-color: #064c38; /* verde-escuro */
+  background-color: var(--verde-escuro);
   color: #fff;
-  padding: 8px 14px;
-  border-radius: 4px;
+  padding: 8px 16px;
+  border-radius: 6px;
   font-size: 0.9rem;
+  transition: background-color 0.2s ease;
 }
 .btn-logout:hover {
-  background-color: #05612d; /* ligeiramente mais claro */
+  background-color: var(--verde-claro);
 }
 
 /* Formulários */
 form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 form label {
-  flex: 1 0 100%;
-  margin-top: 8px;
+  font-weight: 500;
+  margin-bottom: 4px;
 }
 
 form input,
 form select,
 form button {
-  padding: 8px;
+  padding: 10px 12px;
   font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid var(--cinza-escuro);
+  border-radius: 6px;
+  transition: border-color 0.2s ease;
 }
 
 form input:focus,
 form select:focus {
   outline: none;
-  border-color: #064c38; /* verde-escuro no foco */
+  border-color: var(--verde-escuro);
 }
 
-/* Botões primários (verde-escuro) */
+.form-login, .form-retirada, .form-produto {
+  width: 100%;
+}
+
+.form-login input,
+.form-login button {
+  width: 100%;
+}
+
+/* Botões primários */
 .btn-primary {
-  background-color: #064c38; /* verde-escuro */
+  background-color: var(--verde-escuro);
   color: #fff;
   border: none;
   cursor: pointer;
-  margin-top: 8px;
+  transition: background-color 0.2s ease;
 }
 .btn-primary:hover {
-  background-color: #05612d; /* hover mais leve */
+  background-color: var(--verde-claro);
 }
 
-/* Botões secundários (dourado) */
+/* Botões secundários */
 .btn-secondary {
-  background-color: #d4af37; /* dourado */
+  background-color: var(--dourado);
   color: #fff;
   border: none;
   cursor: pointer;
-  margin-top: 8px;
+  transition: background-color 0.2s ease;
 }
 .btn-secondary:hover {
-  background-color: #b89b31; /* dourado escuro */
+  background-color: var(--dourado-escuro);
 }
 
-/* Tabelas */
+/* Botão cancelar edição */
+#btn-cancelar-edicao {
+  background-color: var(--laranja);
+}
+#btn-cancelar-edicao:hover {
+  background-color: var(--laranja-escuro);
+}
+
+/* Caixa de erro */
+.error {
+  color: #d8000c;
+  margin-bottom: 12px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Tabelas responsivas */
+.table-container {
+  overflow-x: auto;
+  margin-bottom: 30px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 30px;
+  min-width: 600px;
 }
 
 table th,
 table td {
-  padding: 8px 10px;
-  border: 1px solid #ddd;
+  padding: 12px 14px;
+  border: 1px solid var(--cinza-escuro);
   text-align: left;
   font-size: 0.95rem;
 }
 
 table th {
-  background-color: #f0f0f0;
+  background-color: var(--cinza-medio);
+  font-weight: 600;
 }
 
-/* Linhas ímpares em branco, pares muito levemente cinza */
 table tr:nth-child(even) {
   background-color: #fafafa;
 }
 
-/* Erros */
-.error {
-  color: #d8000c;
-  margin-bottom: 12px;
-  text-align: center;
+table tr:hover {
+  background-color: #f0f0f0;
 }
 
-/* Botão de cancelar edição */
-#btn-cancelar-edicao {
-  background-color: #e67e22; /* laranja */
-}
-#btn-cancelar-edicao:hover {
-  background-color: #d35400;
-}
-
-/* Separadores de subseção nos relatórios */
+/* Relatórios */
 .subsecao {
-  margin-top: 30px;
-  padding-top: 10px;
-  border-top: 1px solid #ccc;
+  margin-top: 32px;
+  padding-top: 12px;
+  border-top: 1px solid var(--cinza-escuro);
 }
 
-/* Canvas do gráfico ocupa largura total */
 .chart-canvas {
   width: 100% !important;
-  height: 400px !important;
+  height: 450px !important;
+  margin-bottom: 30px;
+}
+
+/* Responsividade geral */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px 20px;
+    margin: 16px auto;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  form {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .btn-logout {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
+  table th,
+  table td {
+    padding: 10px 8px;
+    font-size: 0.9rem;
+  }
+
+  .chart-canvas {
+    height: 300px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 95%;
+    margin: 12px auto;
+    padding: 12px 16px;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+  }
+
+  form input,
+  form select,
+  form button {
+    padding: 8px 10px;
+    font-size: 0.95rem;
+  }
+
+  .btn-logout {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
+
+  table th,
+  table td {
+    padding: 8px 6px;
+    font-size: 0.85rem;
+  }
 }
