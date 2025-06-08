@@ -118,7 +118,7 @@ header {
   background-color: var(--verde-claro);
 }
 
-/* Formulários */
+/* Formulários responsivos – grid base */
 form {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -236,68 +236,104 @@ table tr:hover {
   background-color: #f0f0f0;
 }
 
-/* ============================= */
-/* Ajustes para tabela de estoque no Employee (mobile) */
-@media (max-width: 768px) {
-  .table-container {
-    overflow-x: auto;
-  }
+/* ===========================
+   Estilos para formulários (alinhamento)
+   =========================== */
 
-  #tabela-estoque {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  #tabela-estoque th,
-  #tabela-estoque td {
-    font-size: 0.85rem;
-    padding: 6px 8px;
-    white-space: nowrap;
-  }
-
-  .container {
-    padding: 12px 16px;
-  }
-
-  h2 {
-    font-size: 1.25rem;
-  }
+/* Container que centraliza o formulário na tela */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0;
 }
 
-/* Responsividade geral */
-@media (max-width: 768px) {
-  .container {
-    padding: 16px 20px;
-    margin: 16px auto;
-  }
+/* Agrupa label e input na mesma linha, com label à esquerda e input à direita */
+.form-group {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+  width: 100%;            /* respeita largura máxima do form */
+  max-width: 500px;       /* limitar largura do grupo */
+}
 
-  h1 {
-    font-size: 1.5rem;
-  }
+/* Label com largura fixa e texto alinhado à direita */
+.form-group label {
+  width: 120px;
+  text-align: right;
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
 
-  h2 {
-    font-size: 1.25rem;
-  }
+/* Input / Select dentro do grupo ocupa o restante do espaço */
+.form-group input,
+.form-group select {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 
-  form {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
+/* Container para os botões de ação (Salvar, Cancelar, Retirar) */
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
 
-  .btn-logout {
-    padding: 6px 12px;
-    font-size: 0.85rem;
-  }
+/* Listagem de resultados de busca (funcionário) */
+.search-results {
+  width: 100%;
+  max-width: 500px;
+  margin: 0.5rem auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
 
-  table th,
-  table td {
-    padding: 10px 8px;
-    font-size: 0.9rem;
-  }
+.search-results .result-item {
+  padding: 0.5rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--cinza-escuro);
+}
+
+.search-results .result-item:last-child {
+  border-bottom: none;
+}
+
+.search-results .result-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Caixa de alertas (no admin), com borda e fundo levemente destacado */
+.alert-box {
+  border: 1px solid #e74c3c;
+  background-color: #fdecea;
+  padding: 0.75rem;
+  border-radius: 4px;
+  max-width: 600px;
+  margin: 0 auto 1rem;
+}
+
+.alert-box h3 {
+  margin: 0.25rem 0;
+  color: #c0392b;
+}
+
+.alert-box ul {
+  margin: 0.5rem 0 0 1.5rem;
+}
+
+.alert-section {
+  margin-bottom: 0.75rem;
 }
 
 /* ============================= */
-/* CARD LAYOUT para telas pequenas (só usado na página de admin) */
+/* CARD LAYOUT para telas pequenas (apenas no admin) */
 
 .cards-container {
   display: none;
@@ -365,7 +401,51 @@ table tr:hover {
   background-color: var(--dourado-escuro);
 }
 
+/* ============================= */
+/* Ajustes de responsividade – mobile */
+
 @media (max-width: 768px) {
+  .table-container {
+    overflow-x: auto;
+  }
+
+  #tabela-estoque {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  #tabela-estoque th,
+  #tabela-estoque td {
+    font-size: 0.85rem;
+    padding: 6px 8px;
+    white-space: nowrap;
+  }
+
+  .container {
+    padding: 12px 16px;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  form {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .btn-logout {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
+  table th,
+  table td {
+    padding: 10px 8px;
+    font-size: 0.9rem;
+  }
+
+  /* Esconde tabelas e mostra cards no admin */
   .tabela-produtos-container,
   .tabela-retiradas-container,
   .tabela-relatorio-estoque,

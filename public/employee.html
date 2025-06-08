@@ -15,31 +15,57 @@
       <a href="/logout" class="btn-logout">Logout</a>
     </header>
 
-    <section id="seccao-retirada">
+    <!-- FORMULÁRIO DE RETIRADA REFEITO -->
+    <section id="seccao-retirada" style="margin-top: 2rem;">
       <h2>Registrar Retirada</h2>
-      <form id="form-retirar" class="form-retirada">
-        <label for="select-produtos">Produto:</label>
-        <select id="select-produtos" required>
-          <option value="" disabled selected>Selecione um produto</option>
-        </select>
+      <div class="form-container">
+        <form id="form-retirar" class="form-retirada" style="width: 100%; max-width: 500px;">
+          <!-- 1) Campo de busca por nome -->
+          <div class="form-group">
+            <label for="input-busca-estoque">Buscar Produto:</label> <br>
+            <input type="text" id="input-busca-estoque" placeholder="Digite parte do nome..." autocomplete="off" />
+          </div>
+          <!-- 2) Lista de resultados -->
+          <div id="results-container" class="search-results" style="display: none;"></div>
 
-        <label for="qtde-retirar">Quantidade:</label>
-        <input type="number" id="qtde-retirar" min="1" required />
+          <!-- 3) Campos preenchidos automaticamente ao clicar no resultado -->
+          <div class="form-group">
+            <label for="produto-nome-display">Nome:</label> <br>
+            <input type="text" id="produto-nome-display" readonly placeholder="Clique em um produto acima" />
+          </div>
+          <div class="form-group">
+            <label for="produto-qtde-display">Disponível:</label> <br>
+            <input type="text" id="produto-qtde-display" readonly placeholder="--" />
+          </div>
+          <div class="form-group">
+            <label for="produto-validade-display">Validade:</label>
+            <input type="text" id="produto-validade-display" readonly placeholder="--" />
+          </div>
 
-        <button type="submit" class="btn-primary">Retirar</button>
-      </form>
+          <!-- 4) Campo que usuário realmente preenche para retirar -->
+          <div class="form-group">
+            <label for="qtde-retirar">Quantidade:</label>
+            <input type="number" id="qtde-retirar" min="1" required />
+          </div>
+
+          <div class="form-buttons">
+            <button type="submit" class="btn-primary">Retirar</button>
+          </div>
+        </form>
+      </div>
     </section>
 
-    <section id="seccao-estoque-atual">
+    <!-- TABELA DE ESTOQUE COMO ANTES (CENTRALIZADA) -->
+    <section id="seccao-estoque-atual" style="margin-top: 2rem;">
       <h2>Estoque Atual</h2>
       <div class="table-container">
         <table id="tabela-estoque">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Nome</th>
-              <th>Qtde</th>
-              <th>Validade</th>
+              <th class="sortable" data-col="0">ID <button class="btn-sort">&#x25B2;/&#x25BC;</button></th>
+              <th class="sortable" data-col="1">Nome <button class="btn-sort">&#x25B2;/&#x25BC;</button></th>
+              <th class="sortable" data-col="2">Qtde <button class="btn-sort">&#x25B2;/&#x25BC;</button></th>
+              <th class="sortable" data-col="3">Validade <button class="btn-sort">&#x25B2;/&#x25BC;</button></th>
             </tr>
           </thead>
           <tbody></tbody>

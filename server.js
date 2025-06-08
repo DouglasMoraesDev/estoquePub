@@ -11,6 +11,13 @@ const prisma = new PrismaClient();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
+// =========================
+// LIMIARES DE ALERTAS (vêm do .env, com defaults)
+// =========================
+const ALERT_THRESHOLD_DAYS = parseInt(process.env.ALERT_THRESHOLD_DAYS || '7', 10);
+const LOW_STOCK_THRESHOLD   = parseInt(process.env.LOW_STOCK_THRESHOLD   || '5', 10);
+
 // ---------------------------
 // MIDDLEWARES
 // ---------------------------
@@ -337,6 +344,43 @@ app.post(
     });
   }
 );
+
+
+// =========================
+// ROTA SIMPLES DE ALERTAS (somente ADMIN, sem e-mail)
+// GET /api/alerts → retorna { almostExpiring, lowStock }
+// =========================
+app.get('/api/alerts', checkAuthenticated, checkAdmin, async (req, res) => {
+  try {
+    // “hoje”:
+    const hoje = new Date();
+    // “limite” = hoje + ALERT_THRESHOLD_DAYS dias:
+    const limite = new Date(hoje);
+    limite.setDate(hoje.getDate() + ALERT_THRESHOLD_DAYS);
+
+    // 1) Produtos quase vencendo (validade ≤ limite):
+    const quaseExpiring = await prisma.produto.findMany({
+      where: {
+        validade: { lte: limite }
+      },
+      orderBy: { validade: 'asc' }
+    });
+
+    // 2) Produtos com estoque baixo (quantidade ≤ LOW_STOCK_THRESHOLD):
+    const lowStock = await prisma.produto.findMany({
+      where: {
+        quantidade: { lte: LOW_STOCK_THRESHOLD }
+      },
+      orderBy: { quantidade: 'asc' }
+    });
+
+    return res.json({ almostExpiring: quaseExpiring, lowStock });
+  } catch (err) {
+    console.error('Erro ao buscar alertas:', err);
+    return res.status(500).json({ error: 'Erro interno ao buscar alertas.' });
+  }
+});
+
 
 // 404 para rotas não tratadas
 app.use((req, res) => {
